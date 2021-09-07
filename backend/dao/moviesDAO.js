@@ -1,5 +1,4 @@
-import mongodb from "mongodb";
-const ObjectId = mongodb.ObjectID;
+import { ObjectId } from "mongodb";
 let movies;
 
 export default class MoviesDao {
@@ -16,7 +15,12 @@ export default class MoviesDao {
     }
   }
 
-  static async getMovies({ filters = null, page = 0, perPage = 20 } = {}) {
+  static async getMovies({
+    filters = null,
+    page = 0,
+    perPage = 20,
+    preview = false,
+  } = {}) {
     let query;
 
     if (filters) {
@@ -31,6 +35,9 @@ export default class MoviesDao {
 
     try {
       cursor = await movies.find(query);
+      if (preview) {
+        cursor.project({ title: 1, poster: 1 });
+      }
     } catch (e) {
       console.error(`Unable to issue find command, ${e}`);
       return { moviesList: [], totalNumMovies: 0 };
@@ -48,6 +55,22 @@ export default class MoviesDao {
         `Unable to convert cursor to array or problem counting documents, ${e}`
       );
       return { restaurantsList: [], totalNumRestaurants: 0 };
+    }
+  }
+
+  static async getMovieById(id) {
+    let query;
+
+    query = { _id: new ObjectId(id) };
+
+    let movie;
+
+    try {
+      movie = await movies.findOne(query);
+      return movie;
+    } catch (e) {
+      console.error(`Unable to issue find command, ${e}`);
+      return;
     }
   }
 }

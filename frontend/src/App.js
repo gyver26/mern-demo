@@ -9,9 +9,9 @@ export default function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <Router>
-        <div>
-          <nav className="bg-black p-4 text-white">
-            <div className="inline-block px-6 text-red-600 text-4xl font-bold">
+        <div className="bg-black p-4">
+          <nav className="text-white container mx-auto">
+            <div className="inline-block mr-6 text-red-600 text-4xl font-bold">
               MFlix
             </div>
             <ul className="inline-block">
@@ -23,7 +23,8 @@ export default function App() {
               </li>
             </ul>
           </nav>
-
+        </div>
+        <div>
           <Switch>
             <Route path="/theaters">
               <Theaters />
