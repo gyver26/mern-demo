@@ -1,7 +1,7 @@
 import MoviesDAO from "../dao/moviesDAO.js";
 
 export default class MoviesController {
-  static async apiGetMovies(req, res, next) {
+  static async apiGetMovies(req, res) {
     const perPage = req.query.perPage ? parseInt(req.query.perPage, 10) : 30;
     const page = req.query.page ? parseInt(req.query.page, 10) : 0;
     const preview = req.query.preview === "1" ? true : false;
